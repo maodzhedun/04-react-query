@@ -52,43 +52,32 @@ export default function App() {
     if (!searchQuery) {
       toast.error('Please enter a search term.');
     }
-    //     if (error) {
-    //   toast.error('No movies found for your query.');
-    //   return;
-    // }
-
-
-    // if (movies.length === 0) {
-    //   toast.error('No movies found for your query.');
-    //   return;
-    // }
-    };
+  };
 
   useEffect(() => {
-  if (isSuccess && movies.length === 0) {
-    toast.error('No movies found for your query.');
-  }
-}, [isSuccess, movies]);
+    if (isSuccess && movies.length === 0) {
+      toast.error('No movies found for your query.');
+    }
+  }, [isSuccess, movies]);
 
   return (
     <>
       <div className={css.app}>
         <SearchBar onSubmit={handleSearch} />
-        {isSuccess &&
-          totalPages > 1 &&(
-            <ReactPaginate
-              pageCount={totalPages}
-              pageRangeDisplayed={5}
-              marginPagesDisplayed={1}
-              onPageChange={({ selected }) => setPage(selected + 1)}
-              forcePage={page - 1}
-              containerClassName={css.pagination}
-              activeClassName={css.active}
-              nextLabel="→"
-              previousLabel="←"
-            />
-          )}
-        {isLoading && isFetching && <Loader />}
+        {isSuccess && totalPages > 1 && (
+          <ReactPaginate
+            pageCount={totalPages}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={1}
+            onPageChange={({ selected }) => setPage(selected + 1)}
+            forcePage={page - 1}
+            containerClassName={css.pagination}
+            activeClassName={css.active}
+            nextLabel="→"
+            previousLabel="←"
+          />
+        )}
+        {(isLoading || isFetching) && <Loader />}
         {isError && <ErrorMessage />}
         {movies.length > 0 && (
           <MovieGrid movies={movies} onSelect={openModal} />
